@@ -1,0 +1,63 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block title %}Einblicke – TechniX{% endblock %}
+{% block body_class %}page-index{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="container">
+    <div class="hero-card reveal">
+      <h1 class="hero-title heading-bg hero-title-center" style="--heading-image: url('{% static 'pictures/index/inside.jpeg' %}');">Ein Blick hinter die Kulissen.</h1>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title section-title-center">Unser Image-Film</h2>
+    <video width="1200" controls>
+      <source src="https://transfer.kauper.de/csg/TechniX-Imagefilm.mov" type="video/quicktime">
+    </video>
+    <div class="person-name" style="text-align:center;">Gefilmt und produziert von Sebastian Rieger, 11B</div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title section-title-center">Der Image-Film vom Spendenlauf</h2>
+    <video width="1200" controls>
+      <source src="https://transfer.kauper.de/csg/Imagefilm-Spendenlauf.mp4" type="video/quicktime">
+    </video>
+    <div class="person-name" style="text-align:center;">Gefilmt und produziert von Sebastian Rieger, 11B</div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title section-title-center">Bildgalerie</h2>
+    <div class="gallery reveal">
+      <img src="{% static 'pictures/einblicke/1-5/pic-1.jpeg' %}" alt="Bild 1">
+      <img src="{% static 'pictures/einblicke/1-5/pic-2.jpeg' %}" alt="Bild 2">
+      <img src="{% static 'pictures/einblicke/1-5/pic-3.jpeg' %}" alt="Bild 3">
+      <img src="{% static 'pictures/einblicke/1-5/pic-4.jpeg' %}" alt="Bild 4">
+      <img src="{% static 'pictures/einblicke/1-5/pic-5.jpeg' %}" alt="Bild 5">
+      <img src="{% static 'pictures/einblicke/6-10/pic-1.jpeg' %}" alt="Bild 6">
+      <img src="{% static 'pictures/einblicke/6-10/pic-2.jpeg' %}" alt="Bild 7">
+      <img src="{% static 'pictures/einblicke/6-10/pic-3.jpeg' %}" alt="Bild 8">
+      <img src="{% static 'pictures/einblicke/6-10/pic-4.jpeg' %}" alt="Bild 9">
+      <img src="{% static 'pictures/einblicke/6-10/pic-5.jpeg' %}" alt="Bild 10">
+      <img src="{% static 'pictures/einblicke/11-15/pic-1.jpeg' %}" alt="Bild 11">
+      <img src="{% static 'pictures/einblicke/11-15/pic-2.jpeg' %}" alt="Bild 12">
+      <img src="{% static 'pictures/einblicke/11-15/pic-3.jpeg' %}" alt="Bild 13">
+      <img src="{% static 'pictures/einblicke/11-15/pic-4.jpeg' %}" alt="Bild 14">
+      <img src="{% static 'pictures/einblicke/11-15/pic-5.jpeg' %}" alt="Bild 15">
+      <img src="{% static 'pictures/einblicke/16-20/pic-1.jpeg' %}" alt="Bild 16">
+      <img src="{% static 'pictures/einblicke/16-20/pic-2.jpeg' %}" alt="Bild 17">
+      <img src="{% static 'pictures/einblicke/16-20/pic-3.jpeg' %}" alt="Bild 18">
+      <img src="{% static 'pictures/einblicke/16-20/pic-4.jpeg' %}" alt="Bild 19">
+      <img src="{% static 'pictures/einblicke/16-20/pic-5.jpeg' %}" alt="Bild 20">
+    </div>
+  </div>
+</section>
+{% endblock %}

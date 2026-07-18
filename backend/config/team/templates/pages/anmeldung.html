@@ -1,0 +1,129 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block title %}Anmeldung – TechniX{% endblock %}
+{% block body_class %}page-anmeldung{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-card reveal">
+      <h1 class="hero-title heading-bg hero-title-center" style="--heading-image: url('{% static 'pictures/index/anmeldung.jpeg' %}');">Mach mit und unterstütze uns!</h1>
+    </div>
+  </div>
+</section>
+
+{% if erfolg %}
+<div style="max-width: 560px; margin: 0 auto 32px auto; padding: 20px; border: 1px solid var(--accent); border-radius: 16px; text-align: center; color: var(--accent);">
+  Deine Anmeldung wurde erfolgreich abgeschickt! Besuche uns gerne jeden Mittwoch in Raum 001
+</div>
+{% endif %}
+
+<section class="section">
+  <div class="container">
+    <div class="card reveal" style="text-align: center;">
+      <h1>Voraussetzungen</h1>
+      <p>Mindestens Mitglied der 7. Jahrgangsstufe (Ausnahme möglich)</p>
+      <p>Motivation mit zu helfen</p>
+      <h2>Melde dich gerne im folgenden Formular bei uns an!</h2>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h1 style="text-align: center; margin-bottom: 40px;">Hier Anmelden!</h1>
+    <div style="max-width: 560px; margin: 0 auto;">
+
+      <form method="post" style="display: grid; gap: 20px;">
+        {% csrf_token %}
+
+        <!-- Vorname & Nachname nebeneinander -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div>
+            <label style="display: block; margin-bottom: 6px; color: var(--muted); font-size: 0.9rem;">
+              Vorname <span style="color: var(--accent);">*</span>
+            </label>
+            <input type="text" name="vorname" required
+              value="{{ form.vorname.value|default:'' }}"
+              style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.04); border: 1px solid var(--line); border-radius: 12px; color: var(--ink); font-size: 1rem;">
+          </div>
+          <div>
+            <label style="display: block; margin-bottom: 6px; color: var(--muted); font-size: 0.9rem;">
+              Nachname <span style="color: var(--accent);">*</span>
+            </label>
+            <input type="text" name="nachname" required
+              value="{{ form.nachname.value|default:'' }}"
+              style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.04); border: 1px solid var(--line); border-radius: 12px; color: var(--ink); font-size: 1rem;">
+          </div>
+        </div>
+
+        <!-- Klasse -->
+        <div>
+          <label style="display: block; margin-bottom: 6px; color: var(--muted); font-size: 0.9rem;">
+            Klasse <span style="color: var(--accent);">*</span>
+          </label>
+          <input type="text" name="klasse" required
+            value="{{ form.klasse.value|default:'' }}"
+            placeholder="z.B. 10B oder Q12"
+            style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.04); border: 1px solid var(--line); border-radius: 12px; color: var(--ink); font-size: 1rem;">
+        </div>
+
+        <!-- Geburtsdatum -->
+        <div>
+          <label style="display: block; margin-bottom: 6px; color: var(--muted); font-size: 0.9rem;">
+            Geburtsdatum <span style="color: var(--accent);">*</span>
+          </label>
+          <input type="text" name="geburtsdatum" id="geburtsdatum" required
+            value="{{ form.geburtsdatum.value|default:'' }}"
+            placeholder="TT.MM.JJJJ"
+            style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.04); border: 1px solid var(--line); border-radius: 12px; color: var(--ink); font-size: 1rem;">
+        </div>
+
+        <!-- Telefonnummer -->
+        <div>
+          <label style="display: block; margin-bottom: 6px; color: var(--muted); font-size: 0.9rem;">
+            Telefonnummer <span style="color: var(--muted); font-size: 0.8rem;">(optional)</span>
+          </label>
+          <input type="tel" name="telefonnummer"
+            value="{{ form.telefonnummer.value|default:'' }}"
+            style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.04); border: 1px solid var(--line); border-radius: 12px; color: var(--ink); font-size: 1rem;">
+        </div>
+
+        <!-- E-Mail -->
+        <div>
+          <label style="display: block; margin-bottom: 6px; color: var(--muted); font-size: 0.9rem;">
+            E-Mail-Adresse <span style="color: var(--muted); font-size: 0.8rem;">(optional)</span>
+          </label>
+          <input type="email" name="email"
+            value="{{ form.email.value|default:'' }}"
+            style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.04); border: 1px solid var(--line); border-radius: 12px; color: var(--ink); font-size: 1rem;">
+        </div>
+
+        <!-- Absenden -->
+        <button type="submit"
+          style="padding: 14px; background: var(--accent); color: #08080b; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer;">
+          Bewerbung abschicken
+        </button>
+
+      </form>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/de.js"></script>
+<script>
+  flatpickr('#geburtsdatum', {
+    locale: 'de',
+    dateFormat: 'd.m.Y',
+    maxDate: 'today',
+    allowInput: true,
+    disableMobile: true,
+  });
+</script>
+
+{% endblock %}

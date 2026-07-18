@@ -1,0 +1,584 @@
+:root {
+  --bg: #08080b;
+  --surface: transparent;
+  --ink: #f5f5f7;
+  --muted: #a1a1a6;
+  --line: rgba(255, 255, 255, 0.12);
+  --accent: #7bd3ff;
+  --glow: rgba(123, 211, 255, 0.18);
+  --heading-image: url("pictures/index/heading.png");
+  --heading-height: clamp(160px, 24vw, 320px);
+  --heading-height-sm: clamp(140px, 20vw, 240px);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@font-face {
+    font-family: "Olney";
+    src: url("fonts/olney_light.otf") format("opentype");
+    font-weight: 300;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+    font-family: "Olney";
+    color: var(--ink);
+    background: radial-gradient(1200px 600px at 15% -10%, rgba(123, 211, 255, 0.12), transparent 60%),
+                radial-gradient(900px 500px at 90% 5%, rgba(255, 255, 255, 0.08), transparent 55%),
+                var(--bg);
+    line-height: 1.6;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page {
+  overflow-x: hidden;
+}
+
+.container {
+  width: min(1120px, 92vw);
+  margin: 0 auto;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(8, 8, 11, 0.82);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--line);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 0;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.brand img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+
+.nav-links {
+  display: flex;
+  gap: 22px;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.nav-links a:hover {
+  color: var(--ink);
+}
+
+.hero {
+  padding: 90px 0 70px;
+  position: relative;
+}
+
+.hero-card {
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  position: relative;
+}
+
+.hero-title {
+  font-size: clamp(2.6rem, 5.5vw, 4.6rem);
+  margin: 0 0 18px;
+  line-height: 1.05;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title-center {
+  text-align: center;
+}
+
+.heading-bg {
+  min-height: var(--heading-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heading-bg::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -0.55em;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: var(--heading-height);
+  background-image: var(--heading-image);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.35;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.section-title.heading-bg::before {
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: var(--heading-height-sm);
+  top: -0.6em;
+  opacity: 0.3;
+}
+
+.hero-sub {
+  color: var(--muted);
+  font-size: 1.1rem;
+  max-width: 680px;
+}
+
+.hero-media {
+  margin: 28px 0 12px;
+  border-radius: 26px;
+  height: 300px;
+  border: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.section {
+  padding: 80px 0;
+}
+
+.section + .section {
+  border-top: 1px solid var(--line);
+}
+
+.section-title {
+  font-size: clamp(1.8rem, 3vw, 2.7rem);
+  margin: 0 0 18px;
+  position: relative;
+  z-index: 1;
+}
+
+.section-lead {
+  color: var(--muted);
+  max-width: 720px;
+}
+
+.section-title-center {
+  text-align: center;
+}
+
+.page-inside .hero-title,
+.page-inside .section-title {
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  gap: 28px;
+}
+
+.grid-3 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  justify-content: center;
+}
+
+.grid-3 > * {
+  flex: 0 1 calc(33.333% - 28px);
+  min-width: 240px;
+}
+
+.grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.grid-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.card {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+.person-card {
+  display: grid;
+  gap: 10px;
+}
+
+.person-name {
+  font-weight: 600;
+}
+
+.person-mail {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.page-team .section-title,
+.page-team .section-lead,
+.page-team .person-name,
+.page-team .person-mail {
+  text-align: center;
+}
+
+.page-team .person-card {
+  justify-items: center;
+}
+
+.card-link {
+  display: block;
+  color: inherit;
+}
+
+.page-index .section img {
+  border-radius: 22px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(123, 211, 255, 0.12);
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.image-placeholder {
+  height: 220px;
+  border-radius: 24px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.02);
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  font-weight: 500;
+  margin-top: 16px;
+}
+
+.gallery {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.inventory-card {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.inventory-card img {
+  border-radius: 18px;
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.inventory-card figcaption {
+  display: grid;
+  gap: 4px;
+  color: var(--muted);
+}
+
+.inventory-name {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.inventory-purpose {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 1024px) {
+  .grid-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border-top: 1px solid var(--line);
+}
+
+.table th,
+.table td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+}
+
+.table th {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.cta {
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+}
+
+.footer {
+  padding: 40px 0 60px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: 0.9s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 780px) {
+  .nav-links {
+    display: none;
+  }
+
+  .hero-media {
+    height: 220px;
+  }
+
+  .heading-bg::before {
+    height: 150px;
+  }
+}
+
+.aktuelles-grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 28px;
+  max-width: 100%;
+}
+
+.aktuelles-card {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 25%;
+}
+
+@media (max-width: 900px) {
+  .aktuelles-card:nth-child(n+3) {
+    display: none;
+  }
+  .aktuelles-card {
+    max-width: 50%;
+  }
+}
+
+@media (max-width: 550px) {
+  .aktuelles-card:nth-child(n+2) {
+    display: none;
+  }
+  .aktuelles-card {
+    max-width: 100%;
+  }
+} 
+
+.aktuelles-card {
+  display: block !important;
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 25%;
+}
+
+.gallery img {
+  cursor: pointer;
+}
+
+.gallery img,
+.lightbox-gallery img,
+.inventory-card img,
+.card,
+.aktuelles-card {
+  transition: transform 0.2s ease;
+}
+
+
+/* Verhindert, dass man im Hintergrund scrollen kann, wenn die Lightbox offen ist */
+body.lightbox-open {
+  overflow: hidden;
+}
+
+/* Das abgedunkelte Overlay im Hintergrund */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(8, 8, 11, 0.95); /* Passt zu deinem --bg Wert */
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+/* Macht die Lightbox sichtbar */
+.lightbox.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Der Container für Bild und Buttons */
+.lightbox-dialog {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-figure {
+  margin: 0;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Das eigentliche Bild in der Lightbox */
+.lightbox-img {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Animation beim Wechseln der Bilder */
+.lightbox-img.is-switching {
+  opacity: 0;
+  transform: scale(0.98);
+}
+
+/* Schließen-Button (X) */
+.lightbox-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-size: 2.5rem;
+  cursor: pointer;
+  z-index: 10;
+  line-height: 1;
+  padding: 10px;
+  transition: color 0.2s ease;
+}
+
+.lightbox-close:hover {
+  color: var(--ink);
+}
+
+/* Vor/Zurück Buttons */
+.lightbox-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 2rem;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 10;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.lightbox-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.lightbox-btn.prev {
+  left: 24px;
+}
+
+.lightbox-btn.next {
+  right: 24px;
+}
+
+/* Bildzähler oben links (z.B. 1 / 8) */
+.lightbox-counter {
+  position: absolute;
+  top: 34px;
+  left: 34px;
+  color: var(--muted);
+  font-size: 1rem;
+  font-weight: 500;
+  z-index: 10;
+}
+
+/* Responsive Anpassungen für kleine Bildschirme */
+@media (max-width: 600px) {
+  .lightbox-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+  .lightbox-btn.prev { left: 10px; }
+  .lightbox-btn.next { right: 10px; }
+  .lightbox-close { top: 10px; right: 10px; }
+  .lightbox-counter { top: 20px; left: 20px; }
+}

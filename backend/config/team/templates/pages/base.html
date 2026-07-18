@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}TechniX{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'styles.css' %}?v=2">
+</head>
+<body class="page {% block body_class %}{% endblock %}">
+
+  <header class="header">
+    <div class="container nav">
+      <a class="brand" href="https://www.csg-germering.de">
+        <img src="{% static 'pictures/logo/csg.png' %}" alt="CSG">
+        <div>
+          <div>Zurück zur</div>
+          <div>CSG Seite</div>
+        </div>
+      </a>
+      <nav class="nav-links">
+        <a href="{% url 'index' %}">Startseite</a>
+        <a href="{% url 'einblicke' %}">Einblicke</a>
+        <a href="{% url 'team' %}">Unser Team</a>
+        <a href="{% url 'anmeldung' %}">Anmeldung</a>
+        <a href="{% url 'inventar' %}">Inventar</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div style="display: flex; flex-wrap: wrap; gap: 18px; justify-content: space-between;">
+        <div>
+          <strong> 
+              TechniX -  
+            <a href="https://csg-germering.de"> 
+              Carl-Spitzweg-Gymnasium Germering
+          </strong><br>
+          <span>Made by CSG-TechniX</span>
+        </div>
+        <div>
+          <div>E-Mail:<a href="mailto:leitung@csg-technix.de"> Leitung@csg-technix.de</a></div>
+        </div>
+        <div>
+          <div>© 2026 CSG-TechniX</div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="{% static 'script.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block title %}Inventar – TechniX{% endblock %}
+{% block body_class %}page-index{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="container">
+    <div class="hero-card reveal">
+      <h1 class="hero-title heading-bg hero-title-center" style="--heading-image: url('{% static 'pictures/index/keller.jpeg' %}');">Einblick in unsere Herzstücke</h1>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title section-title-center">Unser bestes Equipment</h2>
+    <div class="grid grid-4 reveal lightbox-gallery">
+      <figure class="inventory-card">
+        <img src="{% static 'pictures/inventar/dot2.jpeg' %}" alt="MA Lighting Dot 2 XL-F">
+        <figcaption><span class="inventory-name">MA Lighting Dot 2 XL-F</span><span class="inventory-purpose">Unser Lichtpult benutzen wir, um jegliches Licht zu steuern</span></figcaption>
+      </figure>
+      <figure class="inventory-card">
+        <img src="{% static 'pictures/inventar/w300.jpeg' %}" alt="Cameo Zenit W300">
+        <figcaption><span class="inventory-name">Cameo Zenit W300</span><span class="inventory-purpose">Unsere LED Wash Lights für in- und Outdoor</span></figcaption>
+      </figure>
+      <figure class="inventory-card">
+        <img src="{% static 'pictures/inventar/f2fc.jpeg' %}" alt="Cameo F2FC">
+        <figcaption><span class="inventory-name">Cameo F2Fc</span><span class="inventory-purpose">Unsere Fresnel Spotlights mit Zoom Funktion</span></figcaption>
+      </figure>
+      <figure class="inventory-card">
+        <img src="{% static 'pictures/inventar/magicdot.jpeg' %}" alt="Ayrton Magic-Dot R">
+        <figcaption><span class="inventory-name">Ayrton Magic Dot R</span><span class="inventory-purpose">Unsere Magic-Dots können sich 360 Grad horizontal und vertikal bewegen.</span></figcaption>
+      </figure>
+      <figure class="inventory-card">
+        <img src="{% static 'pictures/inventar/gld.jpeg' %}" alt="Allen & Heath GLD-80">
+        <figcaption><span class="inventory-name">Allen & Heath GLD-80</span><span class="inventory-purpose">Unser Tonpult steuert den Ton auf jeder Veranstaltung</span></figcaption>
+      </figure>
+      <figure class="inventory-card">
+        <img src="{% static 'pictures/inventar/tsm15.jpeg' %}" alt="Seeburg TSM15 Top">
+        <figcaption><span class="inventory-name">Seeburg TSM 15 Top</span><span class="inventory-purpose">Unsere Seeburg TSM15 hängen während Veranstaltungen an der Decke</span></figcaption>
+      </figure>
+      <figure class="inventory-card">
+        <img src="{% static 'pictures/inventar/dsnake.jpeg' %}" alt="Allan & Heath AR 2412 und AB 168">
+        <figcaption><span class="inventory-name">Allan & Heath AR 2412 und AB 168</span><span class="inventory-purpose">Unser DSnake und DSnake Expander erweitern die In- und Outputs des GLD-080</span></figcaption>
+      </figure>
+      <figure class="inventory-card">
+        <img src="{% static 'pictures/inventar/mics.jpeg' %}" alt="Mikrofonkoffer">
+        <figcaption><span class="inventory-name">Verschiedene Mikrofone</span><span class="inventory-purpose">Unsere verschiedensten Mikrofone nehmen Ton kabelgebunden oder kabellos ab</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+{% endblock %}

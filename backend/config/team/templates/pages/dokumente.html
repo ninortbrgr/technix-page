@@ -1,0 +1,39 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block title %}TechniX – Carl-Spitzweg-Gymnasium{% endblock %}
+{% block body_class %}page-index{% endblock %}
+
+{% block content %}
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-card reveal">
+          <h1 class="hero-title heading-bg hero-title-center" style="--heading-image: url('pictures/index/document.jpeg');">Dokumente und Formulare</h1>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="grid grid-2 reveal">
+          <div class="card">
+            <h3>Antrag zur Anmeldung einer Veranstaltung</h3>
+            <p>Mit diesem Dokument ist es möglich eine Veranstalltungen anzumelden</p>
+            <div class="image-placeholder">Platzhalter PDF</div>
+          </div>
+          <div class="card">
+            <h3>Team Anmeldung</h3>
+            <p>Dieses Dokument muss abgegeben werden, wenn man Mitglied werden will</p>
+            <div class="image-placeholder">Platzhalter PDF</div>
+          </div>
+          <div class="card">
+            <h3>Fortbildung</h3>
+            <p>Dokument zum mitmachen bei der Fortbildung</p>
+            <div class="image-placeholder">Platzhalter PDF</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

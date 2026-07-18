@@ -1,0 +1,74 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block title %}TechniX – Carl-Spitzweg-Gymnasium{% endblock %}
+{% block body_class %}page-index{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="container">
+    <div class="hero-card reveal">
+      <h1 class="hero-title heading-bg hero-title-center">CSG - TechniX</h1>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h1 class="section-title section-title-center">Aktuelles</h1>
+      
+  <div class="container grid grid-3" style="margin-top: 40px;">
+    <div class="card reveal">
+      <a class="card-link" href="about:blank" style="display: block; padding: 24px; border: 1px solid var(--line); border-radius: 16px; text-align: center; background: rgba(255, 255, 255, 0.02);">
+        <h3 style="margin: 0; color: var(--accent);">Platzthalter 1</h3>
+      </a>
+    </div>
+
+    <div class="card reveal">
+      <a class="card-link" href="about:blank" style="display: block; padding: 24px; border: 1px solid var(--line); border-radius: 16px; text-align: center; background: rgba(255, 255, 255, 0.02);">
+        <h3 style="margin: 0; color: var(--accent);">Platzthalter 2</h3>
+      </a>
+    </div>
+
+    <div class="card reveal">
+      <a class="card-link" href="about:blank" style="display: block; padding: 24px; border: 1px solid var(--line); border-radius: 16px; text-align: center; background: rgba(255, 255, 255, 0.02);">
+        <h3 style="margin: 0; color: var(--accent);">Platzthalter 3</h3>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container grid grid-4">
+    <div class="card reveal">
+      <a class="card-link" href="{% url 'einblicke' %}">
+        <h3>Einblicke</h3>
+        <p>Einblicke in Veranstaltungen, Imagefilm und Bildergalerien.</p>
+        <img src="{% static 'pictures/index/inside.jpeg' %}" alt="Team Photo">
+      </a>
+    </div>
+    <div class="card reveal">
+      <a class="card-link" href="{% url 'team' %}">
+        <h3>Unser Team</h3>
+        <p>Unsere Leitungen, Schlüsselmenschen und Mitglieder</p>
+        <img src="{% static 'pictures/index/group-photo.jpeg' %}" alt="Team Photo">
+      </a>
+    </div>
+    <div class="card reveal">
+      <a class="card-link" href="{% url 'anmeldung' %}">
+        <h3>Anmeldung</h3>
+        <p>Was du brauchst, wie du einsteigst, Termine und Kontakt.</p>
+        <img src="{% static 'pictures/index/anmeldung.jpeg' %}" alt="Team Photo">
+      </a>
+    </div>
+        <div class="card reveal">
+      <a class="card-link" href="{% url 'inventar' %}">
+        <h3>Inventar</h3>
+        <p>Unser wichtigstes Equipment auf einen Blick.</p>
+        <img src="{% static 'pictures/index/keller.jpeg' %}" alt="Inventar">
+      </a>
+    </div>
+  </div>
+</section>
+  </div>
+</section>
+{% endblock %}
