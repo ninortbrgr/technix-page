@@ -40,6 +40,10 @@ Füge folgendes ein:
   EMAIL_HOST_PASSWORD=[FÜge hier ggf. das Anwendungspasswort ein, mit dem die Anmeldung auf deinem Mail Server funktioniert]
 
   DEFAULT_FROM_EMAIL=[Füge hier ggf. die E-Mail Adresse ein, mit der Emails verwendet werden sollen]
+
+  INFRA_SYNC_URL=[Hier die URL auf dem das Infranet läuft + /api/technix-users/ einfügen]
+
+  INFRA_API_TOKEN=[Hier das in der admin oberfläche des Infranets erstellte API token einfügen]
  
 **5. Datenbank aufsetzen**
 Folgenden Befehl im Projektordner ausführen `python manage.py migrate`
