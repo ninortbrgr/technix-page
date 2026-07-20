@@ -18,14 +18,29 @@
           <div>CSG Seite</div>
         </div>
       </a>
-      <nav class="nav-links">
+      <nav class="navbar">
+        <!-- Desktop Navigation -->
+        <ul class="nav-links">
+          <a href="{% url 'index' %}">Startseite</a>
+          <a href="{% url 'einblicke' %}">Einblicke</a>
+          <a href="{% url 'team' %}">Unser Team</a>
+          <a href="{% url 'anmeldung' %}">Anmeldung</a>
+          <a href="{% url 'inventar' %}">Inventar</a>
+        </ul>
+        <!-- Hamburger -->
+        <button Class="menu-toggle" id="menu-toggle"> 
+          ☰
+        </button>
+      </nav>
+
+      <!-- Mobile Navigation -->
+      <div class="mobile-menu" id="mobile-menu">
         <a href="{% url 'index' %}">Startseite</a>
         <a href="{% url 'einblicke' %}">Einblicke</a>
         <a href="{% url 'team' %}">Unser Team</a>
         <a href="{% url 'anmeldung' %}">Anmeldung</a>
-        <a href="{% url 'inventar' %}">Inventar</a>
-      </nav>
-    </div>
+        <a href="{% url 'inventar' %}">Inventar</a>  
+      </div>
   </header>
 
   <main>

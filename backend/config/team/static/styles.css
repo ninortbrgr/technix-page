@@ -582,3 +582,56 @@ body.lightbox-open {
   .lightbox-close { top: 10px; right: 10px; }
   .lightbox-counter { top: 20px; left: 20px; }
 }
+
+/* Desktop */
+.nav-links {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+}
+
+.menu-toggle {
+    display: none;
+}
+
+/* Mobile Menü */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 280px;
+    height: 100vh;
+    background: #111;
+    transition: right .3s ease;
+    display: flex;
+    flex-direction: column;
+    padding: 90px 30px;
+}
+
+.mobile-menu a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 0;
+}
+
+.mobile-menu.show {
+    right: 0;
+}
+
+/* Handy */
+@media (max-width: 768px) {
+
+    .nav-links {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: block;
+        font-size: 28px;
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+    }
+
+}
