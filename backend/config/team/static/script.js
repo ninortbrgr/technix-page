@@ -173,3 +173,25 @@ document.addEventListener("DOMContentLoaded", () => {
     console.warn("Mobile Menu Element(e) nicht gefunden! Prüfe die Klassen '.menu-toggle' und '.mobile-menu' im HTML.");
   }
 });
+
+  // ==========================================
+  // 3. Back to Top Button
+  // ==========================================
+const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+// Button ein- und ausblenden
+window.addEventListener("scroll", () => {
+    if (window.scrollY > 300) {
+        scrollTopBtn.classList.add("show");
+    } else {
+        scrollTopBtn.classList.remove("show");
+    }
+});
+
+// Nach oben scrollen
+scrollTopBtn.addEventListener("click", () => {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+});
