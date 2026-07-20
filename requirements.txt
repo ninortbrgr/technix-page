@@ -1,0 +1,11 @@
+asgiref==3.11.1
+Django==4.2.30
+django-formtools==2.6.1
+django-otp==1.7.0
+django-phonenumber-field==8.3.0
+django-two-factor-auth==1.18.1
+pillow==11.3.0
+python-dotenv==1.2.1
+qrcode==8.2
+sqlparse==0.5.5
+typing_extensions==4.15.0
