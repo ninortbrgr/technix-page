@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django.urls import path
 from django.shortcuts import redirect
-from .models import TeamMitglied, Bewerbung, Einstellungen
+from .models import TeamMitglied, Bewerbung, Einstellungen, WallOfHonor
 
 @admin.register(TeamMitglied)
 class TeamMitgliedAdmin(admin.ModelAdmin):
@@ -63,3 +63,11 @@ class EinstellungenAdmin(admin.ModelAdmin):
         einstellungen.save()
         self.message_user(request, '🟢 Wartungsmodus wurde ausgeschaltet!')
         return redirect('/admin/team/einstellungen/')
+
+    from .models import TeamMitglied, Bewerbung, Einstellungen, WallOfHonor
+
+@admin.register(WallOfHonor)
+class WallOfHonorAdmin(admin.ModelAdmin):
+    list_display = ['name', 'text', 'reihenfolge']
+    search_fields = ['name']
+    fields = ['name', 'text', 'bild', 'reihenfolge']

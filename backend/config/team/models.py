@@ -17,8 +17,8 @@ GRUPPEN_REIHENFOLGE = {
 def klassen_sort_key(mitglied):
     klasse = mitglied.klasse.strip()
 
-    match_vorne = re.match(r'^([A-Za-z]+)(\d+)$', klasse)  # Q12, Q13
-    match_hinten = re.match(r'^(\d+)([A-Za-z]*)$', klasse)  # 10B, 11A
+    match_vorne = re.match(r'^([A-Za-z]+)(\d+)$', klasse)
+    match_hinten = re.match(r'^(\d+)([A-Za-z]*)$', klasse)
 
     if match_vorne:
         zahl = int(match_vorne.group(2))
@@ -53,7 +53,7 @@ class TeamMitglied(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.get_gruppe_display()})"
-    
+
 class Bewerbung(models.Model):
     vorname = models.CharField(max_length=100)
     nachname = models.CharField(max_length=100)
@@ -70,7 +70,7 @@ class Bewerbung(models.Model):
 
     def __str__(self):
         return f"{self.vorname} {self.nachname}, {self.klasse}"
-    
+
 class Einstellungen(models.Model):
     wartungsmodus = models.BooleanField(default=False)
 
@@ -80,3 +80,18 @@ class Einstellungen(models.Model):
 
     def __str__(self):
         return 'Einstellungen'
+
+class WallOfHonor(models.Model):
+    name = models.CharField(max_length=100)
+    text = models.TextField(blank=True)
+    bild = models.ImageField(upload_to='honor/', blank=True, null=True)
+    reihenfolge = models.PositiveIntegerField(default=0)
+    erstellt_am = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['reihenfolge', 'name']
+        verbose_name = 'Wall of Honor Eintrag'
+        verbose_name_plural = 'Wall of Honor'
+
+    def __str__(self):
+        return self.name

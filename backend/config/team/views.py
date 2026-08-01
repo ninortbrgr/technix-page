@@ -108,3 +108,9 @@ Im Admin ansehen: http://127.0.0.1:8000/admin/team/bewerbung/
                 form = BewerbungForm()
 
     return render(request, 'pages/anmeldung.html', {'form': form, 'erfolg': erfolg, 'fehler': fehler})
+
+from .models import TeamMitglied, klassen_sort_key, WallOfHonor
+
+def wall_of_honor(request):
+    eintraege = WallOfHonor.objects.all()
+    return render(request, 'pages/wall_of_honor.html', {'eintraege': eintraege})

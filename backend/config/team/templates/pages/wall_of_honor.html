@@ -1,0 +1,52 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block title %}Wall of Honor – TechniX{% endblock %}
+{% block body_class %}page-team{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="container">
+    <div class="hero-card reveal">
+      <h1 class="hero-title heading-bg hero-title-center">Wall of Honor</h1>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h3 class="section-title section-title-center">
+    Mitglieder, die das Team geprägt haben
+    </h3>
+
+    {% if eintraege %}
+    <div class="grid grid-3 reveal" style="margin-top: 40px;">
+      {% for eintrag in eintraege %}
+      <div class="card person-card">
+
+        {% if eintrag.bild %}
+          <img src="{{ eintrag.bild.url }}" alt="{{ eintrag.name }}"
+               style="height: 220px; border-radius: 24px; object-fit: cover; margin-top: 16px;">
+        {% else %}
+          <div class="image-placeholder">Kein Bild</div>
+        {% endif %}
+
+        <div class="person-name">{{ eintrag.name }}</div>
+
+        {% if eintrag.text %}
+          <div class="person-mail">{{ eintrag.text }}</div>
+        {% endif %}
+
+      </div>
+      {% endfor %}
+    </div>
+
+    {% else %}
+    <p style="text-align: center; color: var(--muted); margin-top: 40px;">
+      Noch keine Einträge vorhanden.
+    </p>
+    {% endif %}
+
+  </div>
+</section>
+{% endblock %}
