@@ -195,3 +195,55 @@ scrollTopBtn.addEventListener("click", () => {
         behavior: "smooth"
     });
 });
+  // ==========================================
+  // 4. Wall of Honor Modal
+  // ==========================================
+(function() {
+  const modal = document.getElementById('honor-modal');
+  const overlay = document.getElementById('honor-modal-overlay');
+  const closeBtn = document.getElementById('honor-modal-close');
+  const modalBild = document.getElementById('honor-modal-bild');
+  const modalLeft = document.getElementById('honor-modal-left');
+  const modalName = document.getElementById('honor-modal-name');
+  const modalText = document.getElementById('honor-modal-text');
+
+  function open(name, text, bild) {
+    modalName.textContent = name;
+    modalText.textContent = text || '';
+
+    if (bild) {
+      modalBild.src = bild;
+      modalBild.alt = name;
+      modalLeft.style.display = '';
+    } else {
+      modalLeft.style.display = 'none';
+    }
+
+    document.body.style.overflow = 'hidden';
+    modal.classList.add('is-open');
+    document.addEventListener('keydown', onKey);
+  }
+
+  function close() {
+    modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+    document.removeEventListener('keydown', onKey);
+  }
+
+  function onKey(e) {
+    if (e.key === 'Escape') close();
+  }
+
+  document.querySelectorAll('.honor-card').forEach(card => {
+    card.addEventListener('click', function() {
+      open(
+        this.dataset.name,
+        this.dataset.text,
+        this.dataset.bild
+      );
+    });
+  });
+
+  closeBtn.addEventListener('click', close);
+  overlay.addEventListener('click', close);
+})();

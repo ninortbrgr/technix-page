@@ -68,6 +68,6 @@ class EinstellungenAdmin(admin.ModelAdmin):
 
 @admin.register(WallOfHonor)
 class WallOfHonorAdmin(admin.ModelAdmin):
-    list_display = ['name', 'text', 'reihenfolge']
+    list_display = ['name', 'reihenfolge']
     search_fields = ['name']
     fields = ['name', 'text', 'bild', 'reihenfolge']

@@ -15,27 +15,27 @@
 
 <section class="section">
   <div class="container">
-    <h3 class="section-title section-title-center">
-    Mitglieder, die das Team geprägt haben
-    </h3>
+    <h2 style="text-align: center;">
+      Mtiglieder, die das TechniX für immer geprägt haben! Tippe auf ein Mitglied, um mehr zu erfahren.
+    </h2>
 
     {% if eintraege %}
     <div class="grid grid-3 reveal" style="margin-top: 40px;">
       {% for eintrag in eintraege %}
-      <div class="card person-card">
+      <div class="card person-card honor-card"
+           data-name="{{ eintrag.name }}"
+           data-text="{{ eintrag.text }}"
+           data-bild="{% if eintrag.bild %}{{ eintrag.bild.url }}{% endif %}"
+           style="cursor: pointer;">
 
         {% if eintrag.bild %}
           <img src="{{ eintrag.bild.url }}" alt="{{ eintrag.name }}"
-               style="height: 220px; border-radius: 24px; object-fit: cover; margin-top: 16px;">
+               style="height: 220px; border-radius: 24px; object-fit: cover; margin-top: 16px; transition: transform 0.2s ease;">
         {% else %}
           <div class="image-placeholder">Kein Bild</div>
         {% endif %}
 
         <div class="person-name">{{ eintrag.name }}</div>
-
-        {% if eintrag.text %}
-          <div class="person-mail">{{ eintrag.text }}</div>
-        {% endif %}
 
       </div>
       {% endfor %}
@@ -49,4 +49,21 @@
 
   </div>
 </section>
+
+<!-- Modal -->
+<div id="honor-modal">
+  <div id="honor-modal-overlay"></div>
+  <div id="honor-modal-dialog">
+    <button id="honor-modal-close">×</button>
+    <div id="honor-modal-content">
+      <div id="honor-modal-left">
+        <img id="honor-modal-bild" src="" alt="">
+      </div>
+      <div id="honor-modal-right">
+        <h2 id="honor-modal-name"></h2>
+        <p id="honor-modal-text"></p>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
