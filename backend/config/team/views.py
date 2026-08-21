@@ -5,12 +5,17 @@ from django.utils import timezone
 from .models import TeamMitglied, klassen_sort_key
 from .forms import BewerbungForm
 
-GRUPPEN_REIHENFOLGE = ['leitung', 'alt_leitung', 'schluessel', 'mitglied']
+GRUPPEN_REIHENFOLGE = ['leitung', 'neu_leitung', 'alt_leitung', 'schluessel', 'mitglied']
 
 GRUPPEN_INFO = {
     'leitung': {
         'titel': 'Leitungen',
         'beschreibung': 'Die Leitungen koordinieren das Team, planen Aufbauten und sind die ersten Ansprechpartner.',
+        'grid': 'grid-3',
+    },
+    'neu_leitung': {
+        'titel': 'Neu-Leitungen',
+        'beschreibung': 'Die nächste Generation der Leitung, die sich aktuell in der Einarbeitung befindet.',
         'grid': 'grid-3',
     },
     'alt_leitung': {

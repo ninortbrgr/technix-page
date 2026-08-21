@@ -13,7 +13,7 @@
         });
 
         // Je nach Gruppe einblenden
-        if (gruppe === 'leitung' || gruppe === 'alt_leitung') {
+        if (gruppe === 'leitung' || gruppe === 'alt_leitung' || gruppe === 'neu_leitung') {
             if (zusatzfeld) zusatzfeld.style.display = '';
             if (email) email.style.display = '';
             if (bild) bild.style.display = '';

@@ -3,15 +3,17 @@ from django.db import models
 
 class Gruppe(models.TextChoices):
     LEITUNG = 'leitung', 'Leitung'
+    NEU_LEITUNG = 'neu_leitung', 'Neu-Leitung'
     ALT_LEITUNG = 'alt_leitung', 'Alt-Leitung'
     SCHLUESSEL = 'schluessel', 'Schlüsselmenschen'
     MITGLIED = 'mitglied', 'Mitglieder'
 
 GRUPPEN_REIHENFOLGE = {
     'leitung': 0,
-    'alt_leitung': 1,
-    'schluessel': 2,
-    'mitglied': 3,
+    'neu_leitung': 1,
+    'alt_leitung': 2,
+    'schluessel': 3,
+    'mitglied': 4,
 }
 
 def klassen_sort_key(mitglied):
