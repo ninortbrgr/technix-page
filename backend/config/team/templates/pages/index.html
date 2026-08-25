@@ -38,21 +38,33 @@
 </section>
 
 <section class="section">
-  <div class="container grid grid-4">
+  <div class="container grid grid-3">
     <div class="card reveal">
       <a class="card-link" href="{% url 'einblicke' %}">
         <h3>Einblicke</h3>
-        <p>Einblicke in Veranstaltungen, Imagefilme und Bildergalerien</p>
+        <p>Einblicke ins Technikteam</p>
         <img src="{% static 'pictures/index/inside.jpeg' %}" alt="Team Photo">
       </a>
     </div>
+
     <div class="card reveal">
       <a class="card-link" href="{% url 'team' %}">
         <h3>Unser Team</h3>
-        <p>Das Team, welches alles möglich macht</p>
+        <p>Das Team, hinter allen Veranstaltungen</p>
         <img src="{% static 'pictures/index/group-photo.jpeg' %}" alt="Team Photo">
       </a>
     </div>
+    <div class="card reveal">
+      <a class="card-link" href="{% url 'wall_of_honor' %}">
+        <h3>Wall of Honor</h3>
+        <p>Mitglieder, die das Team geprägt haben</p>
+        <img src="{% static 'pictures/index/anmeldung.jpeg' %}" alt="Team Photo">
+      </a>
+    </div>
+  </div>
+  <br /><br />
+  <br /><br />
+  <div class="container grid grid-2">
     <div class="card reveal">
       <a class="card-link" href="{% url 'anmeldung' %}">
         <h3>Anmeldung</h3>
@@ -60,11 +72,11 @@
         <img src="{% static 'pictures/index/anmeldung.jpeg' %}" alt="Team Photo">
       </a>
     </div>
-        <div class="card reveal">
+    <div class="card reveal">
       <a class="card-link" href="{% url 'inventar' %}">
         <h3>Inventar</h3>
-        <p>Unser wichtigstes Equipment auf einen Blick</p>
-        <img src="{% static 'pictures/index/keller.jpeg' %}" alt="Inventar">
+        <p>Übersicht über unser Inventar</p>
+        <img src="{% static 'pictures/index/keller.jpeg' %}" alt="Team Photo">
       </a>
     </div>
   </div>
