@@ -798,3 +798,140 @@ body.lightbox-open {
     font-size: 1.6rem;
   }
 }
+/* Container & Haupttitel */
+.benefits-section {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #ffffff;
+  text-align: center; /* Alles zentral ausrichten */
+}
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  letter-spacing: 0.5px;
+}
+
+.accordion-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Abstand zwischen den Blöcken */
+}
+
+/* Haupt-Block / Karte */
+.accordion-card {
+  background: #121212; /* Dunkler, fester Block-Hintergrund */
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.accordion-card:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px); /* Leichter Schwebe-Effekt beim Hovern */
+}
+
+/* Header-Block (geschlossener Zustand) */
+.accordion-header {
+  padding: 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: center; /* Titel zentrieren */
+  align-items: center;
+  position: relative;
+  list-style: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.accordion-header::-webkit-details-marker {
+  display: none;
+}
+
+.accordion-title {
+  text-align: center;
+}
+
+/* Pfeil/Icon ganz rechts im Block positionieren */
+.accordion-icon {
+  position: absolute;
+  right: 20px;
+  width: 12px;
+  height: 12px;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  transform: rotate(45deg); /* Nach unten zeigender Pfeil */
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+/* Zustand wenn Karte GEÖFFNET ist */
+.accordion-card[open] {
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.accordion-card[open] .accordion-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Feine Trennlinie zum ausgeklappten Text */
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.accordion-card[open] .accordion-icon {
+  transform: rotate(-135deg); /* Pfeil dreht sich nach oben */
+}
+
+/* Der sich öffnende Text-Block darunter */
+.accordion-content {
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.2); /* Leicht dunklerer Hintergrund für den Inhalt */
+  color: #dddddd;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  text-align: center; /* Text zentrieren */
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.accordion-content p {
+  margin: 0;
+  max-width: 650px;
+  margin: 0 auto; /* Zentriert den Textbereich auf breiten Screens */
+}
+
+/* Sanftes Einblenden des Inhalts */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile Feinschliff */
+@media (max-width: 600px) {
+  .section-title {
+    font-size: 1.4rem;
+  }
+
+  .accordion-header {
+    padding: 16px 45px 16px 20px; /* Platz rechts für den Pfeil freihalten */
+    font-size: 1rem;
+  }
+
+  .accordion-icon {
+    right: 16px;
+  }
+
+  .accordion-content {
+    padding: 16px;
+    font-size: 0.9rem;
+  }
+}
