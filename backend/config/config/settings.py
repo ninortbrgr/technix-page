@@ -91,6 +91,7 @@ USE_TZ = True
 USE_L10N = True
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = '/var/www/myproject/staticfiles/'
 
 MEDIA_URL = '/media/'
