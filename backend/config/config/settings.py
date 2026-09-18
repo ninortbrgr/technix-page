@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'technix.rtbrgr.de', '192.168.178.145']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'technix.rtbrgr.de', '192.168.178.39']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
