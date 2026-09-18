@@ -1,249 +1,355 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // ==========================================
-  // 1. SCROLL ANIMATIONEN (Intersection Observer)
-  // ==========================================
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  initHeader();
+  initCurrentNavigation();
+  initRevealAnimations(prefersReducedMotion);
+  initLightbox();
+  initMobileMenu();
+  initScrollTopButton();
+  initHonorModal();
+});
+
+function initHeader() {
+  const header = document.querySelector(".header");
+  if (!header) return;
+
+  const updateHeader = () => {
+    header.classList.toggle("is-scrolled", window.scrollY > 12);
+  };
+
+  updateHeader();
+  window.addEventListener("scroll", updateHeader, { passive: true });
+}
+
+function initCurrentNavigation() {
+  const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
+
+  document.querySelectorAll(".nav-links a, .mobile-menu a").forEach((link) => {
+    const linkPath = new URL(link.href, window.location.origin).pathname.replace(/\/$/, "") || "/";
+
+    if (linkPath === currentPath) {
+      link.classList.add("is-active");
+      link.setAttribute("aria-current", "page");
+    }
+  });
+}
+
+function initRevealAnimations(prefersReducedMotion) {
+  const revealItems = Array.from(document.querySelectorAll(".reveal"));
+  if (!revealItems.length) return;
+
+  revealItems.forEach((item, index) => {
+    item.style.setProperty("--reveal-delay", `${Math.min(index % 4, 3) * 70}ms`);
+  });
+
+  if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+    revealItems.forEach((item) => item.classList.add("is-visible"));
+    return;
+  }
+
+  const revealPassedItems = () => {
+    revealItems.forEach((item) => {
+      if (item.classList.contains("is-visible")) return;
+
+      const box = item.getBoundingClientRect();
+      const isNearViewport = box.top < window.innerHeight * 1.18;
+      const wasSkipped = box.bottom < 0;
+
+      if (isNearViewport || wasSkipped) {
+        item.classList.add("is-visible");
+      }
+    });
+  };
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target);
-        }
+        if (!entry.isIntersecting) return;
+
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
       });
     },
-    { threshold: 0.2 }
+    {
+      threshold: 0.16,
+      rootMargin: "0px 0px -8% 0px",
+    }
   );
 
-  document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+  revealItems.forEach((item) => {
+    const box = item.getBoundingClientRect();
 
-  // ==========================================
-  // 2. LIGHTBOX GALERIE
-  // ==========================================
-  (() => {
-    const galleryImages = Array.from(document.querySelectorAll(".gallery img, .lightbox-gallery img"));
-    if (galleryImages.length === 0) return;
+    if (box.top < window.innerHeight * 1.18) {
+      item.classList.add("is-visible");
+      return;
+    }
 
-    galleryImages.forEach((img) => {
-      img.tabIndex = 0;
-      img.setAttribute("role", "button");
-      img.setAttribute("aria-label", "Bild vergrößern");
+    observer.observe(item);
+  });
+
+  revealPassedItems();
+  window.addEventListener("scroll", revealPassedItems, { passive: true });
+  window.addEventListener("resize", revealPassedItems);
+}
+
+function initLightbox() {
+  const galleryImages = Array.from(document.querySelectorAll(".gallery img, .lightbox-gallery img"));
+  if (!galleryImages.length) return;
+
+  galleryImages.forEach((image) => {
+    image.tabIndex = 0;
+    image.setAttribute("role", "button");
+    image.setAttribute("aria-label", "Bild vergrößern");
+  });
+
+  const lightbox = document.createElement("div");
+  lightbox.className = "lightbox";
+  lightbox.setAttribute("aria-hidden", "true");
+  lightbox.innerHTML = `
+    <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-label="Bildansicht">
+      <button class="lightbox-close" type="button" aria-label="Schließen">×</button>
+      <div class="lightbox-counter" aria-live="polite"></div>
+      <button class="lightbox-btn prev" type="button" aria-label="Vorheriges Bild">‹</button>
+      <figure class="lightbox-figure">
+        <img class="lightbox-img" alt="">
+      </figure>
+      <button class="lightbox-btn next" type="button" aria-label="Nächstes Bild">›</button>
+    </div>
+  `;
+  document.body.appendChild(lightbox);
+
+  const closeBtn = lightbox.querySelector(".lightbox-close");
+  const counter = lightbox.querySelector(".lightbox-counter");
+  const prevBtn = lightbox.querySelector(".lightbox-btn.prev");
+  const nextBtn = lightbox.querySelector(".lightbox-btn.next");
+  const image = lightbox.querySelector(".lightbox-img");
+
+  let currentIndex = 0;
+  let lastFocused = null;
+  let open = false;
+
+  const normalizeIndex = (index) => (index + galleryImages.length) % galleryImages.length;
+
+  const updateImage = (index, animate = true) => {
+    currentIndex = normalizeIndex(index);
+
+    const source = galleryImages[currentIndex];
+    const src = source.currentSrc || source.getAttribute("src");
+    const alt = source.getAttribute("alt") || `Bild ${currentIndex + 1}`;
+    const hasMultipleImages = galleryImages.length > 1;
+
+    prevBtn.hidden = !hasMultipleImages;
+    nextBtn.hidden = !hasMultipleImages;
+    counter.textContent = `${currentIndex + 1} / ${galleryImages.length}`;
+
+    if (!animate) {
+      image.src = src;
+      image.alt = alt;
+      return;
+    }
+
+    image.classList.add("is-switching");
+
+    requestAnimationFrame(() => {
+      image.src = src;
+      image.alt = alt;
     });
 
-    const lightbox = document.createElement("div");
-    lightbox.className = "lightbox";
+    image.addEventListener(
+      "load",
+      () => {
+        image.classList.remove("is-switching");
+      },
+      { once: true }
+    );
+  };
+
+  const openAt = (index) => {
+    if (open) return;
+
+    open = true;
+    lastFocused = document.activeElement;
+
+    document.body.classList.add("lightbox-open");
+    lightbox.classList.add("is-open");
+    lightbox.setAttribute("aria-hidden", "false");
+
+    updateImage(index, false);
+    closeBtn.focus({ preventScroll: true });
+  };
+
+  const close = () => {
+    if (!open) return;
+
+    open = false;
+    lightbox.classList.remove("is-open");
     lightbox.setAttribute("aria-hidden", "true");
-    lightbox.innerHTML = `
-      <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-label="Bildansicht">
-        <button class="lightbox-close" type="button" aria-label="Schließen">×</button>
-        <div class="lightbox-counter" aria-live="polite"></div>
-        <button class="lightbox-btn prev" type="button" aria-label="Vorheriges Bild">‹</button>
-        <figure class="lightbox-figure">
-          <img class="lightbox-img" alt="">
-        </figure>
-        <button class="lightbox-btn next" type="button" aria-label="Nächstes Bild">›</button>
-      </div>
-    `;
-    document.body.appendChild(lightbox);
+    document.body.classList.remove("lightbox-open");
 
-    const dialog = lightbox.querySelector(".lightbox-dialog");
-    const closeBtn = lightbox.querySelector(".lightbox-close");
-    const counterEl = lightbox.querySelector(".lightbox-counter");
-    const prevBtn = lightbox.querySelector(".lightbox-btn.prev");
-    const nextBtn = lightbox.querySelector(".lightbox-btn.next");
-    const lightboxImg = lightbox.querySelector(".lightbox-img");
-
-    let currentIndex = 0;
-    let lastFocused = null;
-    let isOpen = false;
-
-    const normalizeIndex = (index) => (index + galleryImages.length) % galleryImages.length;
-
-    const setImage = (index, { animate } = { animate: true }) => {
-      currentIndex = normalizeIndex(index);
-      const source = galleryImages[currentIndex];
-      const src = source.currentSrc || source.getAttribute("src");
-      const alt = source.getAttribute("alt") || `Bild ${currentIndex + 1}`;
-
-      prevBtn.style.display = galleryImages.length > 1 ? "" : "none";
-      nextBtn.style.display = galleryImages.length > 1 ? "" : "none";
-      counterEl.textContent = `${currentIndex + 1} / ${galleryImages.length}`;
-
-      if (!animate) {
-        lightboxImg.src = src;
-        lightboxImg.alt = alt;
-        return;
-      }
-
-      lightboxImg.classList.add("is-switching");
-      requestAnimationFrame(() => {
-        lightboxImg.src = src;
-        lightboxImg.alt = alt;
-      });
-
-      const onLoad = () => {
-        lightboxImg.classList.remove("is-switching");
-        lightboxImg.removeEventListener("load", onLoad);
-      };
-      lightboxImg.addEventListener("load", onLoad);
-    };
-
-    const openAt = (index) => {
-      if (isOpen) return;
-      isOpen = true;
-      lastFocused = document.activeElement;
-
-      document.body.classList.add("lightbox-open");
-      lightbox.classList.add("is-open");
-      lightbox.setAttribute("aria-hidden", "false");
-
-      setImage(index, { animate: false });
-      closeBtn.focus({ preventScroll: true });
-    };
-
-    const close = () => {
-      if (!isOpen) return;
-      isOpen = false;
-
-      lightbox.classList.remove("is-open");
-      lightbox.setAttribute("aria-hidden", "true");
-      document.body.classList.remove("lightbox-open");
-
-      if (lastFocused) lastFocused.focus({ preventScroll: true });
-    };
-
-    const prev = () => setImage(currentIndex - 1, { animate: true });
-    const next = () => setImage(currentIndex + 1, { animate: true });
-
-    document.addEventListener("keydown", (e) => {
-      if (!isOpen) return;
-      if (e.key === "Escape") close();
-      if (e.key === "ArrowLeft") prev();
-      if (e.key === "ArrowRight") next();
-    });
-
-    galleryImages.forEach((img, idx) => {
-      img.addEventListener("click", () => openAt(idx));
-      img.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          openAt(idx);
-        }
-      });
-    });
-
-    prevBtn.addEventListener("click", (e) => { e.stopPropagation(); prev(); });
-    nextBtn.addEventListener("click", (e) => { e.stopPropagation(); next(); });
-    closeBtn.addEventListener("click", (e) => { e.stopPropagation(); close(); });
-    lightbox.addEventListener("click", (e) => {
-      if (e.target === lightbox || e.target === dialog) close();
-    });
-  })();
-
-  // ==========================================
-  // 3. MOBILE MENU & SIDEBAR
-  // ==========================================
-  const menuToggle = document.querySelector(".menu-toggle");
-  const mobileMenu = document.querySelector(".mobile-menu");
-
-  if (menuToggle && mobileMenu) {
-    // Öffnen & Schließen über den Button
-    menuToggle.addEventListener("click", (event) => {
-      event.stopPropagation(); // Verhindert sofortiges Schließen durch den document-Klicker
-      mobileMenu.classList.toggle("show");
-    });
-
-    // Sidebar schließen, wenn man irgendwo ins Leere klickt
-    document.addEventListener("click", (event) => {
-      if (mobileMenu.classList.contains("show")) {
-        // Prüfen, ob der Klick außerhalb des Menüs und außerhalb des Buttons war
-        if (!mobileMenu.contains(event.target) && !menuToggle.contains(event.target)) {
-          mobileMenu.classList.remove("show");
-        }
-      }
-    });
-
-    // Sidebar schließen, wenn man auf einen Link darin klickt (bessere User Experience)
-    const menuLinks = mobileMenu.querySelectorAll("a");
-    menuLinks.forEach((link) => {
-      link.addEventListener("click", () => {
-        mobileMenu.classList.remove("show");
-      });
-    });
-  } else {
-    console.warn("Mobile Menu Element(e) nicht gefunden! Prüfe die Klassen '.menu-toggle' und '.mobile-menu' im HTML.");
-  }
-});
-
-  // ==========================================
-  // 3. Back to Top Button
-  // ==========================================
-const scrollTopBtn = document.getElementById("scrollTopBtn");
-
-// Button ein- und ausblenden
-window.addEventListener("scroll", () => {
-    if (window.scrollY > 300) {
-        scrollTopBtn.classList.add("show");
-    } else {
-        scrollTopBtn.classList.remove("show");
+    if (lastFocused) {
+      lastFocused.focus({ preventScroll: true });
     }
-});
+  };
 
-// Nach oben scrollen
-scrollTopBtn.addEventListener("click", () => {
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-});
-  // ==========================================
-  // 4. Wall of Honor Modal
-  // ==========================================
-(function() {
-  const modal = document.getElementById('honor-modal');
-  const overlay = document.getElementById('honor-modal-overlay');
-  const closeBtn = document.getElementById('honor-modal-close');
-  const modalBild = document.getElementById('honor-modal-bild');
-  const modalLeft = document.getElementById('honor-modal-left');
-  const modalName = document.getElementById('honor-modal-name');
-  const modalText = document.getElementById('honor-modal-text');
+  galleryImages.forEach((galleryImage, index) => {
+    galleryImage.addEventListener("click", () => openAt(index));
+    galleryImage.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
 
-  function open(name, text, bild) {
-    modalName.textContent = name;
-    modalText.textContent = text || '';
-
-    if (bild) {
-      modalBild.src = bild;
-      modalBild.alt = name;
-      modalLeft.style.display = '';
-    } else {
-      modalLeft.style.display = 'none';
-    }
-
-    document.body.style.overflow = 'hidden';
-    modal.classList.add('is-open');
-    document.addEventListener('keydown', onKey);
-  }
-
-  function close() {
-    modal.classList.remove('is-open');
-    document.body.style.overflow = '';
-    document.removeEventListener('keydown', onKey);
-  }
-
-  function onKey(e) {
-    if (e.key === 'Escape') close();
-  }
-
-  document.querySelectorAll('.honor-card').forEach(card => {
-    card.addEventListener('click', function() {
-      open(
-        this.dataset.name,
-        this.dataset.text,
-        this.dataset.bild
-      );
+      event.preventDefault();
+      openAt(index);
     });
   });
 
-  closeBtn.addEventListener('click', close);
-  overlay.addEventListener('click', close);
-})();
+  prevBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    updateImage(currentIndex - 1);
+  });
+
+  nextBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    updateImage(currentIndex + 1);
+  });
+
+  closeBtn.addEventListener("click", close);
+
+  lightbox.addEventListener("click", (event) => {
+    if (event.target === lightbox || event.target.classList.contains("lightbox-dialog")) {
+      close();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (!open) return;
+
+    if (event.key === "Escape") close();
+    if (event.key === "ArrowLeft") updateImage(currentIndex - 1);
+    if (event.key === "ArrowRight") updateImage(currentIndex + 1);
+  });
+}
+
+function initMobileMenu() {
+  const menuToggle = document.querySelector(".menu-toggle");
+  const mobileMenu = document.querySelector(".mobile-menu");
+  if (!menuToggle || !mobileMenu) return;
+
+  menuToggle.setAttribute("aria-controls", mobileMenu.id || "mobile-menu");
+  menuToggle.setAttribute("aria-expanded", "false");
+
+  const setMenuOpen = (open) => {
+    mobileMenu.classList.toggle("show", open);
+    menuToggle.setAttribute("aria-expanded", String(open));
+    document.body.classList.toggle("mobile-menu-open", open);
+  };
+
+  menuToggle.addEventListener("click", (event) => {
+    event.stopPropagation();
+    setMenuOpen(!mobileMenu.classList.contains("show"));
+  });
+
+  mobileMenu.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => setMenuOpen(false));
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!mobileMenu.classList.contains("show")) return;
+    if (mobileMenu.contains(event.target) || menuToggle.contains(event.target)) return;
+
+    setMenuOpen(false);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      setMenuOpen(false);
+    }
+  });
+}
+
+function initScrollTopButton() {
+  const scrollTopBtn = document.getElementById("scrollTopBtn");
+  if (!scrollTopBtn) return;
+
+  const toggleButton = () => {
+    scrollTopBtn.classList.toggle("show", window.scrollY > 360);
+  };
+
+  toggleButton();
+  window.addEventListener("scroll", toggleButton, { passive: true });
+
+  scrollTopBtn.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  });
+}
+
+function initHonorModal() {
+  const modal = document.getElementById("honor-modal");
+  const overlay = document.getElementById("honor-modal-overlay");
+  const closeBtn = document.getElementById("honor-modal-close");
+  const modalImage = document.getElementById("honor-modal-bild");
+  const modalImageWrap = document.getElementById("honor-modal-left");
+  const modalName = document.getElementById("honor-modal-name");
+  const modalText = document.getElementById("honor-modal-text");
+  const cards = Array.from(document.querySelectorAll(".honor-card"));
+
+  if (!modal || !overlay || !closeBtn || !modalName || !modalText || !cards.length) return;
+
+  let lastFocused = null;
+
+  const close = () => {
+    modal.classList.remove("is-open");
+    document.body.style.overflow = "";
+    document.removeEventListener("keydown", onKeyDown);
+
+    if (lastFocused) {
+      lastFocused.focus({ preventScroll: true });
+    }
+  };
+
+  function onKeyDown(event) {
+    if (event.key === "Escape") close();
+  }
+
+  const open = ({ name, text, bild }) => {
+    lastFocused = document.activeElement;
+    modalName.textContent = name || "";
+    modalText.textContent = text || "";
+
+    if (modalImage && modalImageWrap) {
+      if (bild) {
+        modalImage.src = bild;
+        modalImage.alt = name || "";
+        modalImageWrap.style.display = "";
+      } else {
+        modalImage.removeAttribute("src");
+        modalImage.alt = "";
+        modalImageWrap.style.display = "none";
+      }
+    }
+
+    document.body.style.overflow = "hidden";
+    modal.classList.add("is-open");
+    closeBtn.focus({ preventScroll: true });
+    document.addEventListener("keydown", onKeyDown);
+  };
+
+  cards.forEach((card) => {
+    card.tabIndex = 0;
+    card.setAttribute("role", "button");
+    card.setAttribute("aria-label", `${card.dataset.name || "Mitglied"} ansehen`);
+
+    card.addEventListener("click", () => open(card.dataset));
+    card.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+
+      event.preventDefault();
+      open(card.dataset);
+    });
+  });
+
+  closeBtn.addEventListener("click", close);
+  overlay.addEventListener("click", close);
+}
