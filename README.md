@@ -113,5 +113,4 @@ Das Template besitzt eine eingebaute Schutzlogik für das Layout:
 
 ## Head Developer / Kontakt
 
-Bei Fragen zum Setup oder zur Architektur wende dich an:
-**[Nino Reitberger](mailto:nino@rtbrgr.de)** - Head Developer
+**[Nino Reitberger](mailto:nino@rtbrgr.de)**
